@@ -1,0 +1,74 @@
+[
+  {
+    "bugId": "BUG-0342",
+    "title": "Chatbot fails to respond to payment queries",
+    "severity": "Critical",
+    "status": "In Progress",
+    "category": "Payment Processing",
+    "reportedBy": "Sarah Johnson",
+    "reportedDate": "2025-01-15"
+  },
+  {
+    "bugId": "BUG-0341",
+    "title": "Timeout error on long conversations",
+    "severity": "High",
+    "status": "Open",
+    "category": "Performance",
+    "reportedBy": "Michael Chen",
+    "reportedDate": "2025-01-14"
+  },
+  {
+    "bugId": "BUG-0340",
+    "title": "Incorrect sentiment classification",
+    "severity": "Medium",
+    "status": "Open",
+    "category": "AI/ML",
+    "reportedBy": "Emily Davis",
+    "reportedDate": "2025-01-14"
+  },
+  {
+    "bugId": "BUG-0339",
+    "title": "Chat history not loading properly",
+    "severity": "High",
+    "status": "In Progress",
+    "category": "Database",
+    "reportedBy": "Robert Wilson",
+    "reportedDate": "2025-01-13"
+  },
+  {
+    "bugId": "BUG-0338",
+    "title": "Special characters breaking responses",
+    "severity": "Medium",
+    "status": "Open",
+    "category": "Text Processing",
+    "reportedBy": "Lisa Anderson",
+    "reportedDate": "2025-01-12"
+  },
+  {
+    "bugId": "BUG-0337",
+    "title": "Mobile UI alignment issues",
+    "severity": "Low",
+    "status": "Open",
+    "category": "UI/UX",
+    "reportedBy": "David Martinez",
+    "reportedDate": "2025-01-12"
+  },
+  {
+    "bugId": "BUG-0336",
+    "title": "API rate limiting not working",
+    "severity": "Critical",
+    "status": "In Progress",
+    "category": "API",
+    "reportedBy": "Jennifer Taylor",
+    "reportedDate": "2025-01-11"
+  },
+  {
+    "bugId": "BUG-0335",
+    "title": "Language detection failing for mixed text",
+    "severity": "Medium",
+    "status": "Open",
+    "category": "NLP",
+    "reportedBy": "Thomas Brown",
+    "reportedDate": "2025-01-10"
+  }
+]

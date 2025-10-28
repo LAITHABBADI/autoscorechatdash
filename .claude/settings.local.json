@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.autoscore.com)",
+      "Bash(tree:*)",
+      "Bash(npm start)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "chatId": "CH-2847",
+    "user": "John Smith",
+    "status": "Active",
+    "duration": "5m 32s",
+    "messages": 12,
+    "sentiment": "Positive",
+    "startedAt": "10:32 AM"
+  },
+  {
+    "chatId": "CH-2846",
+    "user": "Sarah Johnson",
+    "status": "Active",
+    "duration": "2m 15s",
+    "messages": 6,
+    "sentiment": "Neutral",
+    "startedAt": "10:35 AM"
+  },
+  {
+    "chatId": "CH-2845",
+    "user": "Michael Chen",
+    "status": "Waiting",
+    "duration": "8m 47s",
+    "messages": 18,
+    "sentiment": "Negative",
+    "startedAt": "10:28 AM"
+  },
+  {
+    "chatId": "CH-2844",
+    "user": "Emily Davis",
+    "status": "Active",
+    "duration": "1m 03s",
+    "messages": 3,
+    "sentiment": "Positive",
+    "startedAt": "10:36 AM"
+  },
+  {
+    "chatId": "CH-2843",
+    "user": "Robert Wilson",
+    "status": "Active",
+    "duration": "12m 21s",
+    "messages": 24,
+    "sentiment": "Neutral",
+    "startedAt": "10:25 AM"
+  },
+  {
+    "chatId": "CH-2842",
+    "user": "Lisa Anderson",
+    "status": "Escalated",
+    "duration": "15m 44s",
+    "messages": 31,
+    "sentiment": "Negative",
+    "startedAt": "10:21 AM"
+  },
+  {
+    "chatId": "CH-2841",
+    "user": "David Martinez",
+    "status": "Active",
+    "duration": "3m 18s",
+    "messages": 8,
+    "sentiment": "Positive",
+    "startedAt": "10:34 AM"
+  },
+  {
+    "chatId": "CH-2840",
+    "user": "Jennifer Taylor",
+    "status": "Waiting",
+    "duration": "6m 55s",
+    "messages": 14,
+    "sentiment": "Neutral",
+    "startedAt": "10:30 AM"
+  }
+]
