@@ -7,6 +7,7 @@ import {
   MdSettings,
   MdSentimentSatisfied,
   MdDescription,
+  MdApi,
 } from 'react-icons/md';
 
 // Admin Imports
@@ -14,6 +15,7 @@ import MainDashboard from 'views/admin/default';
 import AISettings from 'views/admin/aiSettings';
 import SentimentAnalysis from 'views/admin/sentimentAnalysis';
 import Reports from 'views/admin/reports';
+import ApiDocs from 'views/admin/apiDocs';
 
 // Auth Imports
 import SignInCentered from 'views/auth/signIn';
@@ -46,6 +48,13 @@ const routes = [
     path: '/reports',
     icon: <Icon as={MdDescription} width="20px" height="20px" color="inherit" />,
     component: <Reports />,
+  },
+  {
+    name: 'nav.apiDocs',
+    layout: '/admin',
+    path: '/api-docs',
+    icon: <Icon as={MdApi} width="20px" height="20px" color="inherit" />,
+    component: <ApiDocs />,
   },
   {
     name: 'nav.signIn',

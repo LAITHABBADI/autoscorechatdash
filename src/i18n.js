@@ -10,6 +10,7 @@ const resources = {
       "nav.aiSettings": "AI Settings",
       "nav.sentimentAnalysis": "Sentiment Analysis",
       "nav.reports": "Reports",
+      "nav.apiDocs": "API Documentation",
       "nav.signIn": "Sign In",
 
       // Dashboard
@@ -113,6 +114,7 @@ const resources = {
       "nav.aiSettings": "إعدادات الذكاء الاصطناعي",
       "nav.sentimentAnalysis": "تحليل المشاعر",
       "nav.reports": "التقارير",
+      "nav.apiDocs": "توثيق الواجهة البرمجية",
       "nav.signIn": "تسجيل الدخول",
 
       // Dashboard
