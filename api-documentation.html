@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoScore Chat APIs Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        h2 {
+            color: #2d3748;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 2px solid #4299e1;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #2d3748;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        .subtitle {
+            color: #718096;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 20px;
+        }
+        .badge-blue { background: #bee3f8; color: #2c5282; }
+        .badge-green { background: #c6f6d5; color: #22543d; }
+        .badge-purple { background: #e9d8fd; color: #44337a; }
+        .badge-method {
+            background: #48bb78;
+            color: white;
+            padding: 6px 14px;
+            font-size: 14px;
+        }
+        .endpoint {
+            background: #f7fafc;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #2d3748;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.5;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn:hover {
+            background: #3182ce;
+        }
+        .tabs {
+            margin: 20px 0;
+        }
+        .tab-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #718096;
+            font-weight: 500;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .tab-button.active {
+            color: #4299e1;
+            border-bottom-color: #4299e1;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .info-box {
+            background: #ebf8ff;
+            border-left: 4px solid #4299e1;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .warning-box {
+            background: #fffaf0;
+            border-left: 4px solid #ed8936;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        .success-box {
+            background: #f0fff4;
+            border-left: 4px solid #48bb78;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AutoScore Chat APIs</h1>
+        <p class="subtitle">Complete API documentation for embedding and interacting with AI-powered chat for your reports.</p>
+
+        <div>
+            <span class="badge badge-blue">REST API</span>
+            <span class="badge badge-green">JSON</span>
+            <span class="badge badge-purple">Next.js</span>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-label">API Endpoints</div>
+                <div class="stat-value">2</div>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                <div class="stat-label">Base URL</div>
+                <div class="stat-value">/api</div>
+            </div>
+        </div>
+
+        <!-- Train Report API -->
+        <h2>1. Train Report API</h2>
+        <div>
+            <span class="badge badge-method">POST</span>
+            <span class="endpoint">/api/train-report</span>
+        </div>
+
+        <p><strong>Purpose:</strong> Create or retrieve a chat session for a specific report. If a session already exists for the provided reportId, it returns the existing session.</p>
+
+        <h3>Request Body</h3>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>{
+  "reportId": "optional-report-id"  // Optional: auto-generated if not provided
+}</div>
+
+        <h3>Response (Success 201)</h3>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>{
+  "success": true,
+  "chatId": "CHAT-1234567890-abc123xyz",
+  "reportId": "RPT-1234567890-def456uvw",
+  "createdAt": "2025-11-11T10:30:00.000Z",
+  "message": "New chat session created"
+}</div>
+
+        <h3>Examples</h3>
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab(event, 'train-js')">JavaScript</button>
+                <button class="tab-button" onclick="showTab(event, 'train-curl')">cURL</button>
+                <button class="tab-button" onclick="showTab(event, 'train-react')">React</button>
+            </div>
+
+            <div id="train-js" class="tab-content active">
+                <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>// Create a new chat session
+const response = await fetch('/api/train-report', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    reportId: 'RPT-12345' // Optional
+  })
+});
+
+const data = await response.json();
+console.log('Chat ID:', data.chatId);
+console.log('Report ID:', data.reportId);</div>
+            </div>
+
+            <div id="train-curl" class="tab-content">
+                <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>curl -X POST http://localhost:3000/api/train-report \
+  -H "Content-Type: application/json" \
+  -d '{"reportId": "RPT-12345"}'</div>
+            </div>
+
+            <div id="train-react" class="tab-content">
+                <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>import { useState } from 'react';
+
+function ChatWithReport() {
+  const [chatId, setChatId] = useState(null);
+  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
+
+  // Create chat session
+  const createSession = async () => {
+    const res = await fetch('/api/train-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    });
+    const data = await res.json();
+    if (data.success) setChatId(data.chatId);
+  };
+
+  return (
+    <div>
+      <button onClick={createSession}>Start Chat</button>
+      {chatId && <p>Chat ID: {chatId}</p>}
+    </div>
+  );
+}</div>
+            </div>
+        </div>
+
+        <!-- Chat API -->
+        <h2>2. Chat API</h2>
+        <div>
+            <span class="badge badge-method">POST</span>
+            <span class="endpoint">/api/chat</span>
+        </div>
+
+        <p><strong>Purpose:</strong> Send a message to an existing chat session and receive an AI-generated response based on the report data.</p>
+
+        <h3>Request Body</h3>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>{
+  "chatId": "CHAT-1234567890-abc123xyz",  // Required
+  "message": "What are the key findings?"    // Required
+}</div>
+
+        <h3>Response (Success 200)</h3>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>{
+  "success": true,
+  "chatId": "CHAT-1234567890-abc123xyz",
+  "messageId": "MSG-1234567890-xyz789abc",
+  "userMessage": "What are the key findings?",
+  "aiResponse": "Based on the analysis in report...",
+  "timestamp": "2025-11-11T10:35:00.000Z",
+  "reportId": "RPT-1234567890-def456uvw",
+  "messageCount": 1
+}</div>
+
+        <h3>Examples</h3>
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab(event, 'chat-js')">JavaScript</button>
+                <button class="tab-button" onclick="showTab(event, 'chat-curl')">cURL</button>
+            </div>
+
+            <div id="chat-js" class="tab-content active">
+                <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>// Send a message to the chat
+const response = await fetch('/api/chat', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    chatId: 'CHAT-1234567890-abc123xyz',
+    message: 'What are the key findings?'
+  })
+});
+
+const data = await response.json();
+console.log('AI Response:', data.aiResponse);</div>
+            </div>
+
+            <div id="chat-curl" class="tab-content">
+                <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "chatId": "CHAT-1234567890-abc123xyz",
+    "message": "What are the key findings?"
+  }'</div>
+            </div>
+        </div>
+
+        <!-- Error Codes -->
+        <h2>Error Codes</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>200</strong></td>
+                    <td>Success</td>
+                    <td>Request completed successfully</td>
+                </tr>
+                <tr>
+                    <td><strong>201</strong></td>
+                    <td>Created</td>
+                    <td>New resource created successfully</td>
+                </tr>
+                <tr>
+                    <td><strong>400</strong></td>
+                    <td>Bad Request</td>
+                    <td>Missing or invalid parameters</td>
+                </tr>
+                <tr>
+                    <td><strong>404</strong></td>
+                    <td>Not Found</td>
+                    <td>Resource (chat session) not found</td>
+                </tr>
+                <tr>
+                    <td><strong>405</strong></td>
+                    <td>Method Not Allowed</td>
+                    <td>Wrong HTTP method used</td>
+                </tr>
+                <tr>
+                    <td><strong>500</strong></td>
+                    <td>Server Error</td>
+                    <td>Internal server error</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Complete Workflow -->
+        <h2>Complete Workflow Example</h2>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>// 1. Create a chat session for a report
+const createSession = await fetch('/api/train-report', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ reportId: 'RPT-12345' })
+});
+
+const { chatId, reportId } = await createSession.json();
+console.log('Created chat:', chatId, 'for report:', reportId);
+
+// 2. Send multiple messages to the chat
+const messages = [
+  'Give me a summary of this report',
+  'What are the sentiment trends?',
+  'Show me the key performance metrics'
+];
+
+for (const msg of messages) {
+  const chatResponse = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ chatId, message: msg })
+  });
+
+  const result = await chatResponse.json();
+  console.log('User:', msg);
+  console.log('AI:', result.aiResponse);
+  console.log('---');
+}</div>
+
+        <!-- Production Considerations -->
+        <h2>Production Considerations</h2>
+
+        <div class="warning-box">
+            <strong>Current Implementation:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Uses in-memory storage (data is lost on server restart)</li>
+                <li>Mock AI responses (placeholder logic)</li>
+            </ul>
+        </div>
+
+        <div class="success-box">
+            <strong>For Production Deployment:</strong>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>Database Integration:</strong> Replace in-memory storage with MongoDB, PostgreSQL, etc.</li>
+                <li><strong>AI Integration:</strong> Connect to OpenAI, Anthropic Claude, or custom AI model</li>
+                <li><strong>Authentication:</strong> Add API key authentication or JWT validation</li>
+                <li><strong>Rate Limiting:</strong> Implement rate limiting to prevent abuse</li>
+                <li><strong>Session Management:</strong> Add session expiration and cleanup logic</li>
+            </ul>
+        </div>
+
+        <!-- Live Testing -->
+        <h2>Testing the APIs</h2>
+
+        <div class="info-box">
+            <strong>Live API Endpoints:</strong><br>
+            ✅ <code>https://autoscorechatdash.vercel.app/api/train-report</code><br>
+            ✅ <code>https://autoscorechatdash.vercel.app/api/chat</code>
+        </div>
+
+        <p style="margin-top: 20px;"><strong>Local Development:</strong></p>
+        <div class="code-block">
+<button class="copy-btn" onclick="copyCode(this)">Copy</button>npm run dev
+
+# APIs available at:
+# http://localhost:3000/api/train-report
+# http://localhost:3000/api/chat</div>
+
+    </div>
+
+    <script>
+        function showTab(event, tabId) {
+            // Get all tabs in the same group
+            const parent = event.target.closest('.tabs');
+            const tabButtons = parent.querySelectorAll('.tab-button');
+            const tabContents = parent.querySelectorAll('.tab-content');
+
+            // Remove active class from all
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function copyCode(button) {
+            const codeBlock = button.parentElement;
+            const code = codeBlock.textContent.replace('Copy', '').trim();
+
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.textContent;
+                button.textContent = 'Copied!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
