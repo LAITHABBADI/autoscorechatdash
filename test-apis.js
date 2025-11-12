@@ -7,12 +7,12 @@
 
 const BASE_URL = 'http://localhost:3000';
 
-async function testEmbedChatAPI() {
-  console.log('\n=== Testing Embed Chat API ===\n');
+async function testTrainReportAPI() {
+  console.log('\n=== Testing Train Report API ===\n');
 
   // Test 1: Create chat with auto-generated report ID
   console.log('Test 1: Create chat session with auto-generated report ID');
-  const response1 = await fetch(`${BASE_URL}/api/embed-chat`, {
+  const response1 = await fetch(`${BASE_URL}/api/train-report`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({})
@@ -23,7 +23,7 @@ async function testEmbedChatAPI() {
 
   // Test 2: Create chat with specific report ID
   console.log('\nTest 2: Create chat session with specific report ID');
-  const response2 = await fetch(`${BASE_URL}/api/embed-chat`, {
+  const response2 = await fetch(`${BASE_URL}/api/train-report`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ reportId: 'RPT-TEST-123' })
@@ -34,7 +34,7 @@ async function testEmbedChatAPI() {
 
   // Test 3: Try to get existing chat for same report ID
   console.log('\nTest 3: Retrieve existing chat session for same report ID');
-  const response3 = await fetch(`${BASE_URL}/api/embed-chat`, {
+  const response3 = await fetch(`${BASE_URL}/api/train-report`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ reportId: 'RPT-TEST-123' })
@@ -110,7 +110,7 @@ async function runTests() {
     console.log('Starting API tests...');
     console.log('Make sure Next.js dev server is running on port 3000\n');
 
-    const chatId = await testEmbedChatAPI();
+    const chatId = await testTrainReportAPI();
     await testChatAPI(chatId);
 
     console.log('\n=== All tests completed ===\n');

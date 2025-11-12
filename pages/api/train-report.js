@@ -1,5 +1,5 @@
 /**
- * API Endpoint: POST /api/embed-chat
+ * API Endpoint: POST /api/train-report
  *
  * Purpose: Create or retrieve a chat session for a specific report
  *
@@ -71,7 +71,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('Error in embed-chat API:', error);
+    console.error('Error in train-report API:', error);
     return res.status(500).json({
       success: false,
       error: 'Internal server error',
