@@ -4,9 +4,9 @@ This document describes the two main APIs for embedding and chatting with report
 
 ---
 
-## 1. Embed Chat API
+## 1. Train Report API
 
-**Endpoint:** `POST /api/embed-chat`
+**Endpoint:** `POST /api/train-report`
 
 **Purpose:** Create or retrieve a chat session for a specific report.
 
@@ -59,7 +59,7 @@ Content-Type: application/json
 **JavaScript (fetch):**
 ```javascript
 // Create a new chat session with auto-generated report ID
-const response = await fetch('/api/embed-chat', {
+const response = await fetch('/api/train-report', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ console.log('Report ID:', data.reportId);
 **JavaScript (with specific report ID):**
 ```javascript
 // Create or retrieve chat session for a specific report
-const response = await fetch('/api/embed-chat', {
+const response = await fetch('/api/train-report', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -92,12 +92,12 @@ console.log('Chat session:', data);
 **cURL:**
 ```bash
 # Create new chat session
-curl -X POST http://localhost:3000/api/embed-chat \
+curl -X POST http://localhost:3000/api/train-report \
   -H "Content-Type: application/json" \
   -d '{}'
 
 # Create chat session with specific report ID
-curl -X POST http://localhost:3000/api/embed-chat \
+curl -X POST http://localhost:3000/api/train-report \
   -H "Content-Type: application/json" \
   -d '{"reportId": "RPT-12345"}'
 ```
@@ -153,7 +153,7 @@ Content-Type: application/json
 ```json
 {
   "success": false,
-  "error": "Chat session not found. Please create a session first using /api/embed-chat"
+  "error": "Chat session not found. Please create a session first using /api/train-report"
 }
 ```
 
@@ -209,7 +209,7 @@ function ChatWithReport() {
 
   // Step 1: Create chat session
   const createChatSession = async (reportIdInput = null) => {
-    const res = await fetch('/api/embed-chat', {
+    const res = await fetch('/api/train-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ reportId: reportIdInput })
@@ -270,7 +270,7 @@ export default ChatWithReport;
 
 ```javascript
 // 1. Create a chat session for a report
-const createSession = await fetch('/api/embed-chat', {
+const createSession = await fetch('/api/train-report', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ reportId: 'RPT-12345' }) // Optional
@@ -352,7 +352,7 @@ for (const msg of messages) {
    ```
 
 2. The APIs will be available at:
-   - `http://localhost:3000/api/embed-chat`
+   - `http://localhost:3000/api/train-report`
    - `http://localhost:3000/api/chat`
 
 3. Test with the provided cURL commands or use tools like Postman or Insomnia.

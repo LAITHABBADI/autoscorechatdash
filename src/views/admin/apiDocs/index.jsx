@@ -40,8 +40,8 @@ export default function ApiDocs() {
   const borderColor = useColorModeValue("secondaryGray.400", "whiteAlpha.200");
 
   // Example code snippets
-  const embedChatExample = `// Create a new chat session
-const response = await fetch('/api/embed-chat', {
+  const trainReportExample = `// Create a new chat session
+const response = await fetch('/api/train-report', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ const response = await fetch('/api/chat', {
 const data = await response.json();
 console.log('AI Response:', data.aiResponse);`;
 
-  const curlEmbedExample = `curl -X POST http://localhost:3000/api/embed-chat \\
+  const curlTrainReportExample = `curl -X POST http://localhost:3000/api/train-report \\
   -H "Content-Type: application/json" \\
   -d '{"reportId": "RPT-12345"}'`;
 
@@ -90,7 +90,7 @@ function ChatWithReport() {
 
   // Create chat session
   const createSession = async () => {
-    const res = await fetch('/api/embed-chat', {
+    const res = await fetch('/api/train-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({})
@@ -177,7 +177,7 @@ function ChatWithReport() {
         <Card p={{ base: '15px', md: '20px' }}>
           <TabList flexWrap='wrap'>
             <Tab fontSize={{ base: 'sm', md: 'md' }}>
-              <Icon as={MdApi} mr='5px' /> Embed Chat API
+              <Icon as={MdApi} mr='5px' /> Train Report API
             </Tab>
             <Tab fontSize={{ base: 'sm', md: 'md' }}>
               <Icon as={MdApi} mr='5px' /> Chat API
@@ -185,13 +185,13 @@ function ChatWithReport() {
           </TabList>
 
           <TabPanels>
-            {/* Embed Chat API */}
+            {/* Train Report API */}
             <TabPanel px='0'>
               <VStack align='stretch' spacing='20px'>
                 <Box>
                   <HStack mb='10px'>
                     <Badge colorScheme='green' fontSize='md' px='10px' py='5px'>POST</Badge>
-                    <Code fontSize='md' p='5px 10px'>/api/embed-chat</Code>
+                    <Code fontSize='md' p='5px 10px'>/api/train-report</Code>
                   </HStack>
                   <Text color={textColorSecondary} fontSize='md'>
                     Create or retrieve a chat session for a specific report. If a session already exists for the provided reportId, it returns the existing session.
@@ -240,10 +240,10 @@ function ChatWithReport() {
                     </TabList>
                     <TabPanels>
                       <TabPanel px='0'>
-                        <CodeBlock code={embedChatExample} bg={codeBg} />
+                        <CodeBlock code={trainReportExample} bg={codeBg} />
                       </TabPanel>
                       <TabPanel px='0'>
-                        <CodeBlock code={curlEmbedExample} bg={codeBg} />
+                        <CodeBlock code={curlTrainReportExample} bg={codeBg} />
                       </TabPanel>
                       <TabPanel px='0'>
                         <CodeBlock code={reactExample} bg={codeBg} />

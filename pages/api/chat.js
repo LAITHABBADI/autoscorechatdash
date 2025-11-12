@@ -22,7 +22,7 @@
  */
 
 // Import chat sessions (in production, use database)
-import { chatSessions } from './embed-chat.js';
+import { chatSessions } from './train-report.js';
 
 // Mock AI response generator (replace with actual AI integration)
 function generateAIResponse(message, reportId) {
@@ -84,7 +84,7 @@ export default async function handler(req, res) {
     if (!chatSession) {
       return res.status(404).json({
         success: false,
-        error: 'Chat session not found. Please create a session first using /api/embed-chat'
+        error: 'Chat session not found. Please create a session first using /api/train-report'
       });
     }
 
