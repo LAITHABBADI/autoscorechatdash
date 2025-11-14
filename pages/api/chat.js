@@ -5,19 +5,19 @@
  *
  * Request Body:
  * {
- *   chatId: string,      // Required - the chat session ID
+ *   reportId: string,    // Required - the report ID
  *   message: string      // Required - the user's message
  * }
  *
  * Response:
  * {
  *   success: boolean,
- *   chatId: string,
+ *   reportId: string,
  *   messageId: string,
  *   userMessage: string,
  *   aiResponse: string,
  *   timestamp: string,
- *   reportId: string
+ *   messageCount: number
  * }
  */
 
@@ -25,17 +25,22 @@
 import { chatSessions } from './train-report.js';
 
 // Mock AI response generator (replace with actual AI integration)
-function generateAIResponse(message, reportId) {
+function generateAIResponse(message, reportId, reportContent) {
   // This is a placeholder. In production, integrate with:
   // - OpenAI API
   // - Anthropic Claude API
   // - Your custom AI model
 
+  // Build context from report content
+  const contextInfo = reportContent && reportContent.trim().length > 0
+    ? `\n\nReport Context:\n${reportContent.substring(0, 500)}${reportContent.length > 500 ? '...' : ''}`
+    : '';
+
   const responses = {
-    greeting: `Hello! I'm here to help you with report ${reportId}. What would you like to know?`,
-    summary: `Based on the analysis in report ${reportId}, here's a summary of the key findings: The sentiment analysis shows predominantly positive feedback with a satisfaction rate of 87%. There are 3 areas requiring attention.`,
-    details: `Looking at the detailed metrics in report ${reportId}, I can provide specific insights. Which aspect would you like to explore: sentiment trends, user feedback, or performance metrics?`,
-    default: `I understand you're asking about "${message}" regarding report ${reportId}. Let me analyze that for you. [AI response would be generated here based on the actual report data]`
+    greeting: `Hello! I'm here to help you with report ${reportId}. I have access to the report content and can answer questions about it. What would you like to know?`,
+    summary: `Based on the analysis in report ${reportId} and the provided content, here's a summary of the key findings: The sentiment analysis shows predominantly positive feedback with a satisfaction rate of 87%. There are 3 areas requiring attention.${contextInfo}`,
+    details: `Looking at the detailed metrics in report ${reportId}, I can provide specific insights. The report contains detailed information that I can analyze for you. Which aspect would you like to explore: sentiment trends, user feedback, or performance metrics?${contextInfo}`,
+    default: `I understand you're asking about "${message}" regarding report ${reportId}. Based on the report content, let me analyze that for you. [In production, AI would analyze the actual report data]${contextInfo}`
   };
 
   const lowerMessage = message.toLowerCase();
@@ -61,13 +66,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { chatId, message } = req.body;
+    const { reportId, message } = req.body;
 
     // Validate required fields
-    if (!chatId) {
+    if (!reportId || typeof reportId !== 'string' || reportId.trim() === '') {
       return res.status(400).json({
         success: false,
-        error: 'Missing required field: chatId'
+        error: 'Missing or invalid required field: reportId'
       });
     }
 
@@ -78,8 +83,10 @@ export default async function handler(req, res) {
       });
     }
 
-    // Check if chat session exists
-    const chatSession = chatSessions[chatId];
+    // Find chat session by reportId
+    const chatSession = Object.values(chatSessions).find(
+      session => session.reportId === reportId
+    );
 
     if (!chatSession) {
       return res.status(404).json({
@@ -101,7 +108,11 @@ export default async function handler(req, res) {
     const timestamp = new Date().toISOString();
 
     // Generate AI response (replace with actual AI integration)
-    const aiResponse = generateAIResponse(message, chatSession.reportId);
+    const aiResponse = generateAIResponse(
+      message,
+      chatSession.reportId,
+      chatSession.reportContent
+    );
 
     // Store the message exchange
     const messageExchange = {
@@ -117,12 +128,11 @@ export default async function handler(req, res) {
     // Return response
     return res.status(200).json({
       success: true,
-      chatId,
+      reportId: chatSession.reportId,
       messageId,
       userMessage: message,
       aiResponse,
       timestamp,
-      reportId: chatSession.reportId,
       messageCount: chatSession.messages.length
     });
 

@@ -40,14 +40,15 @@ export default function ApiDocs() {
   const borderColor = useColorModeValue("secondaryGray.400", "whiteAlpha.200");
 
   // Example code snippets
-  const trainReportExample = `// Create a new chat session
+  const trainReportExample = `// Create a new chat session with report content
 const response = await fetch('/api/train-report', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    reportId: 'RPT-12345' // Optional
+    reportId: 'RPT-12345', // Required
+    reportContent: 'Your report content here...' // Required
   })
 });
 
@@ -62,7 +63,7 @@ const response = await fetch('/api/chat', {
     'Content-Type': 'application/json',
   },
   body: JSON.stringify({
-    chatId: 'CHAT-1234567890-abc123xyz',
+    reportId: 'RPT-12345',
     message: 'What are the key findings?'
   })
 });
@@ -72,31 +73,37 @@ console.log('AI Response:', data.aiResponse);`;
 
   const curlTrainReportExample = `curl -X POST http://localhost:3000/api/train-report \\
   -H "Content-Type: application/json" \\
-  -d '{"reportId": "RPT-12345"}'`;
+  -d '{
+    "reportId": "RPT-12345",
+    "reportContent": "Your report content here..."
+  }'`;
 
   const curlChatExample = `curl -X POST http://localhost:3000/api/chat \\
   -H "Content-Type: application/json" \\
   -d '{
-    "chatId": "CHAT-1234567890-abc123xyz",
+    "reportId": "RPT-12345",
     "message": "What are the key findings?"
   }'`;
 
   const reactExample = `import { useState } from 'react';
 
 function ChatWithReport() {
-  const [chatId, setChatId] = useState(null);
+  const [reportId, setReportId] = useState(null);
   const [message, setMessage] = useState('');
   const [response, setResponse] = useState('');
 
-  // Create chat session
-  const createSession = async () => {
+  // Create chat session with report content
+  const createSession = async (reportId, reportContent) => {
     const res = await fetch('/api/train-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        reportId,
+        reportContent
+      })
     });
     const data = await res.json();
-    if (data.success) setChatId(data.chatId);
+    if (data.success) setReportId(data.reportId);
   };
 
   // Send message
@@ -104,7 +111,7 @@ function ChatWithReport() {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chatId, message })
+      body: JSON.stringify({ reportId, message })
     });
     const data = await res.json();
     if (data.success) setResponse(data.aiResponse);
@@ -112,8 +119,10 @@ function ChatWithReport() {
 
   return (
     <div>
-      <button onClick={createSession}>Start Chat</button>
-      {chatId && (
+      <button onClick={() => createSession('RPT-12345', 'Report content...')}>
+        Start Chat
+      </button>
+      {reportId && (
         <>
           <input value={message} onChange={e => setMessage(e.target.value)} />
           <button onClick={sendMessage}>Send</button>
@@ -157,20 +166,6 @@ function ChatWithReport() {
         />
       </SimpleGrid>
 
-      {/* Overview */}
-      <Card p={{ base: '20px', md: '30px' }} mb={{ base: '15px', md: '20px' }}>
-        <Text color={textColor} fontSize={{ base: '18px', md: '22px' }} fontWeight='700' mb='10px'>
-          AutoScore Chat APIs
-        </Text>
-        <Text color={textColorSecondary} fontSize='md' mb='20px'>
-          Embed and interact with AI-powered chat for your reports. These APIs allow you to create chat sessions linked to specific reports and send messages to receive AI-generated responses.
-        </Text>
-        <HStack spacing='10px'>
-          <Badge colorScheme='blue' fontSize='sm' p='5px 10px'>REST API</Badge>
-          <Badge colorScheme='green' fontSize='sm' p='5px 10px'>JSON</Badge>
-          <Badge colorScheme='purple' fontSize='sm' p='5px 10px'>Next.js</Badge>
-        </HStack>
-      </Card>
 
       {/* API Endpoints */}
       <Tabs variant='soft-rounded' colorScheme='blue' mb={{ base: '15px', md: '20px' }}>
@@ -206,7 +201,8 @@ function ChatWithReport() {
                   </Text>
                   <CodeBlock
                     code={`{
-  "reportId": "optional-report-id"  // Optional: auto-generated if not provided
+  "reportId": "RPT-12345",                   // Required: unique identifier for the report
+  "reportContent": "Your report content..."  // Required: the actual content of the report
 }`}
                     bg={codeBg}
                   />
@@ -275,7 +271,7 @@ function ChatWithReport() {
                   </Text>
                   <CodeBlock
                     code={`{
-  "chatId": "CHAT-1234567890-abc123xyz",  // Required
+  "reportId": "RPT-12345",                   // Required
   "message": "What are the key findings?"    // Required
 }`}
                     bg={codeBg}
@@ -289,12 +285,11 @@ function ChatWithReport() {
                   <CodeBlock
                     code={`{
   "success": true,
-  "chatId": "CHAT-1234567890-abc123xyz",
+  "reportId": "RPT-12345",
   "messageId": "MSG-1234567890-xyz789abc",
   "userMessage": "What are the key findings?",
   "aiResponse": "Based on the analysis...",
   "timestamp": "2025-11-11T10:35:00.000Z",
-  "reportId": "RPT-1234567890-def456uvw",
   "messageCount": 1
 }`}
                     bg={codeBg}
@@ -341,34 +336,6 @@ function ChatWithReport() {
         </SimpleGrid>
       </Card>
 
-      {/* Production Notes */}
-      <Card p={{ base: '20px', md: '30px' }}>
-        <Text color={textColor} fontSize={{ base: '18px', md: '22px' }} fontWeight='700' mb='15px'>
-          Production Considerations
-        </Text>
-        <VStack align='stretch' spacing='15px'>
-          <InfoItem
-            title='Database Integration'
-            description='Replace in-memory storage with MongoDB, PostgreSQL, or your preferred database'
-          />
-          <InfoItem
-            title='AI Integration'
-            description='Connect to OpenAI, Anthropic Claude, or your custom AI model API'
-          />
-          <InfoItem
-            title='Authentication'
-            description='Add API key authentication or JWT validation for security'
-          />
-          <InfoItem
-            title='Rate Limiting'
-            description='Implement rate limiting to prevent API abuse'
-          />
-          <InfoItem
-            title='Session Management'
-            description='Add session expiration and cleanup for inactive sessions'
-          />
-        </VStack>
-      </Card>
     </Box>
   );
 }

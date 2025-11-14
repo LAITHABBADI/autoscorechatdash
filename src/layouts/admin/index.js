@@ -16,6 +16,7 @@ const MainDashboard = dynamic(() => import('views/admin/default'));
 const AISettings = dynamic(() => import('views/admin/aiSettings'));
 const SentimentAnalysis = dynamic(() => import('views/admin/sentimentAnalysis'));
 const Reports = dynamic(() => import('views/admin/reports'));
+const ApiDocs = dynamic(() => import('views/admin/apiDocs'));
 
 // Custom Chakra theme
 export default function Dashboard(props) {
@@ -111,6 +112,7 @@ export default function Dashboard(props) {
     if (path === '/sentiment-analysis') return <SentimentAnalysis />;
     if (path === '/ai-settings') return <AISettings />;
     if (path === '/reports') return <Reports />;
+    if (path === '/api-docs') return <ApiDocs />;
     return <MainDashboard />;
   };
   const { onOpen } = useDisclosure();

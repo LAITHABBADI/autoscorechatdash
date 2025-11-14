@@ -5,7 +5,8 @@
  *
  * Request Body:
  * {
- *   reportId?: string  // Optional - if not provided, a new one will be generated
+ *   reportId: string,        // Required - unique identifier for the report
+ *   reportContent: string    // Required - the content/data of the report
  * }
  *
  * Response:
@@ -30,23 +31,39 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { reportId } = req.body;
+    const { reportId, reportContent } = req.body;
 
-    // Generate or use provided reportId
-    const finalReportId = reportId || `RPT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    // Validate required fields
+    if (!reportId || typeof reportId !== 'string' || reportId.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing or invalid required field: reportId'
+      });
+    }
+
+    if (!reportContent || typeof reportContent !== 'string' || reportContent.trim() === '') {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing or invalid required field: reportContent'
+      });
+    }
 
     // Check if a chat session already exists for this report
     let existingChat = Object.values(chatSessions).find(
-      session => session.reportId === finalReportId
+      session => session.reportId === reportId
     );
 
     if (existingChat) {
+      // Update report content
+      existingChat.reportContent = reportContent;
+      existingChat.lastUpdated = new Date().toISOString();
+
       return res.status(200).json({
         success: true,
         chatId: existingChat.chatId,
         reportId: existingChat.reportId,
         createdAt: existingChat.createdAt,
-        message: 'Existing chat session retrieved'
+        message: 'Existing chat session retrieved and updated'
       });
     }
 
@@ -56,8 +73,10 @@ export default async function handler(req, res) {
 
     chatSessions[chatId] = {
       chatId,
-      reportId: finalReportId,
+      reportId,
+      reportContent,
       createdAt,
+      lastUpdated: createdAt,
       messages: [],
       status: 'active'
     };
@@ -65,7 +84,7 @@ export default async function handler(req, res) {
     return res.status(201).json({
       success: true,
       chatId,
-      reportId: finalReportId,
+      reportId,
       createdAt,
       message: 'New chat session created'
     });
